@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db_sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: db_sqlserver
+    environment:
+      SA_PASSWORD: "docker@sql01"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
+    networks:
+      - local-docker-network
+  
+  # webapi:
+    # build:
+      # context: .
+      # dockerfile: src/Template.Web.API/Dockerfile
+    # container_name: template-web-api
+    # ports:
+      # - "5000:8080"  # Expondo a API na porta 5000 (porta interna 80 do Kestrel)
+    # networks:
+      # - local-docker-network
+    # depends_on:
+      # - db_sqlserver
+  
+  # webapp:
+    # build:
+      # context: src/template-web-app
+      # dockerfile: Dockerfile
+    # container_name: template-web-app
+    # ports:
+      # - "8080:80"  # Expondo o Nginx na porta 80
+    # networks:
+      # - local-docker-network
+
+networks:
+  local-docker-network:
+    name: local-docker-network
+    driver: bridge
